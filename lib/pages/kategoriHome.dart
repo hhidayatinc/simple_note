@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:new_note/helper/dbHelper.dart';
 import 'package:new_note/models/kategori.dart';
+import 'package:new_note/pages/mainDrawer.dart';
 import 'package:sqflite/sqflite.dart';
-
 import 'kategoriForm.dart';
 
 class KategoriHome extends StatefulWidget {
@@ -37,35 +37,20 @@ class KategoriHomeState extends State<KategoriHome> {
              padding: EdgeInsets.only(left: 250, bottom: 30),
               child: FloatingActionButton(
             child: const Icon(Icons.add),
-            backgroundColor: Colors.lightBlue[900],
+            backgroundColor: Colors.yellow[700],
             onPressed: () async {
-              var konten = await navigateToEntryForm(context, null);
-              if (konten != null) {}
+              var kategori = await navigateToEntryForm(context, null);
+              if (kategori != null) {
+                int result = await dbHelper.insertKategori(kategori);
+                    if (result > 0) {
+                      updateListView();
+              }
+              }
             },
           ))
         ],
       ),
-      drawer: Drawer(
-          child: ListView(padding: EdgeInsets.only(top: 50), children: <Widget>[
-        ListTile(
-          leading: CircleAvatar(backgroundColor: Colors.lightBlue[900]),
-          title: Text("Simple Note"),
-          subtitle: Text("Help you to remember things"),
-        ),
-        ListTile(
-            leading: Icon(Icons.home),
-            title: Text("Home"),
-            onTap: () {
-              Navigator.pushNamed(context, '/');
-            }),
-        ListTile(
-          leading: Icon(Icons.category),
-          title: Text("Kategori"),
-          onTap: () {
-            Navigator.pushNamed(context, '/kategori');
-          },
-        ),
-      ])),
+      drawer: MainDrawer(),
     );
   }
 
@@ -87,8 +72,8 @@ class KategoriHomeState extends State<KategoriHome> {
             elevation: 3.0,
             child: ListTile(
               leading: CircleAvatar(
-                backgroundColor: Colors.lightBlue[900],
-                child: Icon(Icons.notes),
+                backgroundColor: Colors.yellow[700],
+                child: Icon(Icons.category, color: Colors.white,),
               ),
               title: Container(
                 padding: EdgeInsets.only(right: 10),
@@ -114,7 +99,7 @@ class KategoriHomeState extends State<KategoriHome> {
               trailing: GestureDetector(
                 child: Icon(Icons.delete),
                 onTap: () async {
-                  dbHelper.deleteKonten(kategoriList[index].id);
+                  dbHelper.deleteKategori(kategoriList[index].id);
                   updateListView();
                 },
               ),

@@ -98,26 +98,27 @@ class DbHelper{
 
 //
   Future<List<Konten>> getKontenList() async {
-    var kontenMapList = await selectKonten();
-    int count = kontenMapList.length;
+    var itemMapList = await selectKonten();
+    int count = itemMapList.length;
     // ignore: deprecated_member_use
-    List<Konten> kontenList = List<Konten>();
+    List<Konten> itemList = List<Konten>();
     for (int i = 0; i < count; i++) {
-      kontenList.add(Konten.fromMap(kontenMapList[i]));
-    }
-    return kontenList;
-  }
-
-  Future<List<Kategori>> getKategoriList() async {
-    var kategoriMapList = await selectKonten();
-    int count = kategoriMapList.length;
-    // ignore: deprecated_member_use
-    List<Kategori> itemList = List<Kategori>();
-    for (int i = 0; i < count; i++) {
-      itemList.add(Kategori.fromMap(kategoriMapList[i]));
+      itemList.add(Konten.fromMap(itemMapList[i]));
     }
     return itemList;
   }
+
+  Future<List<Kategori>> getKategoriList() async {
+    var itemMapList = await selectKategori();
+    int count = itemMapList.length;
+    // ignore: deprecated_member_use
+    List<Kategori> itemList = List<Kategori>();
+    for (int i = 0; i < count; i++) {
+      itemList.add(Kategori.fromMap(itemMapList[i]));
+    }
+    return itemList;
+  }
+ 
 
   factory DbHelper() {
     if (_dbHelper == null) {

@@ -31,8 +31,9 @@ dependencies:
   sqflite: ^1.3.1
   path_provider: ^1.6.28
   flutter_icons: ^0.2.5
-  datetime_picker_formfield: ^0.4.3
-  intl: ^0.15.8
+  
+  date_field: ^0.1.2
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:
