@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:new_note/helper/dbHelper.dart';
 import 'package:new_note/models/kategori.dart';
 import 'package:new_note/pages/mainDrawer.dart';
@@ -78,7 +79,7 @@ class KategoriHomeState extends State<KategoriHome> {
               title: Container(
                 padding: EdgeInsets.only(right: 10),
                 child: Text(
-                  this.kategoriList[index].title + "-",
+                  this.kategoriList[index].title,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
               ),

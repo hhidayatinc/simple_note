@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:new_note/helper/dbHelper.dart';
 import 'package:new_note/models/konten.dart';
 import 'package:sqflite/sqflite.dart';
@@ -23,7 +24,7 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Simple Note"), backgroundColor: Colors.lightBlue[900]),
+          title: Text("Note & Wishlist"), backgroundColor: Colors.lightBlue[900]),
       body: Column(
         children: [
           Expanded(
@@ -88,7 +89,7 @@ class HomePageState extends State<HomePage> {
                 Container(
                   padding: EdgeInsets.only(right: 5),
                   child: Text(
-                    this.kontenList[index].kategori + " -",
+                    this.kontenList[index].kategori,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                   ),
                 ),

@@ -15,7 +15,7 @@ class MainDrawer extends StatelessWidget {
         leading: CircleAvatar(
           child: Icon(Icons.collections_bookmark, color: Colors.white,),
           backgroundColor: Colors.yellow[700]),
-        title: Text("Simple Note"),
+        title: Text("Note & Wishlist"),
         subtitle: Text("Help you to remember things"),
       ),
       ListTile(

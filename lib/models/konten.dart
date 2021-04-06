@@ -8,10 +8,10 @@ class Konten {
   get id => this._id;
   set id(int value) => this._id = value;
 
-  get kategori => this._kategori;
+  String get kategori => this._kategori;
   set kategori(value) => this._kategori = value;
 
-  get title => this._title;
+  String get title => this._title;
   set title(String title) => this._title = title;
 
   get note => this._note;
