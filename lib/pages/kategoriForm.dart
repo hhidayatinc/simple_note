@@ -71,11 +71,12 @@ class KategoriFormState extends State<KategoriForm> {
               Expanded(
                 // ignore: deprecated_member_use
                 child: RaisedButton(
-                  color: Colors.lightBlue[900],
+                  color: Colors.yellow[800],
                   textColor: Colors.white,
                   child: Text(
                     'Save',
                     textScaleFactor: 1.2,
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   onPressed: () {
                     if (kategori == null) {
@@ -99,11 +100,12 @@ class KategoriFormState extends State<KategoriForm> {
               Expanded(
                 // ignore: deprecated_member_use
                 child: RaisedButton(
-                  color: Colors.lightBlue[900],
+                  color: Colors.yellow[800],
                   textColor:  Colors.white,
                   child: Text(
                     'Cancel',
                     textScaleFactor: 1.2,
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   onPressed: () {
                     Navigator.pop(context);

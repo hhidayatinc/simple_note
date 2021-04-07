@@ -16,12 +16,14 @@ class DbHelper{
     String path = directory.path + 'simpleNote.db';
 
     var itemDatabase = openDatabase(path,
-        version: 4, onCreate: _createDb);
+        version: 5, onCreate: _createDb);
     return itemDatabase;
   }
 
   void _createDb(Database db, int version) async{
     var batchTemp = db.batch();
+    batchTemp.execute('DROP TABLE IF EXISTS  kategori');
+    batchTemp.execute('DROP TABLE IF EXISTS  konten');
     // ignore: await_only_futures
     await batchTemp.execute('''
         CREATE TABLE kategori (
@@ -34,7 +36,7 @@ class DbHelper{
     await batchTemp.execute('''
         CREATE TABLE konten (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        kategori TEXT NOT NULL,
+        kategori TEXT,
         date TEXT,
         title TEXT,
         note TEXT

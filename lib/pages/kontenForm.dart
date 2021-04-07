@@ -17,24 +17,18 @@ class KontenFormState extends State<KontenForm> {
   Konten konten;
   Kategori kategori;
   DbHelper dbHelper = DbHelper();
-  int count = 0;
   KontenFormState(this.konten);
   TextEditingController titleController = TextEditingController();
   TextEditingController noteController = TextEditingController();
-  //TextEditingController kategoriController = TextEditingController();
 
   DateTime _chooseDate = DateTime.now();
-  
   List<Kategori> kategoriList = List<Kategori>();
-  Kategori _selectedCategory;
-
   List<String> listKategori = List<String>();
 
   int indexList = 0;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     updateListView();
   }
@@ -46,8 +40,6 @@ class KontenFormState extends State<KontenForm> {
       Future<List<Kategori>> kategoriListFuture = dbHelper.getKategoriList();
       kategoriListFuture.then((kategoriList) {
         setState(() {
-          //this.kategoriList = kategoriList;
-          //this.count = kategoriList.length;
           for (int i = 0; i < kategoriList.length; i++) {
             listKategori.add(kategoriList[i].title);
           }
@@ -60,13 +52,12 @@ class KontenFormState extends State<KontenForm> {
     if (konten != null) {
       titleController.text = konten.title;
       noteController.text = konten.note;
-      //kategoriController.text = konten.kategori;
-      //kategoriController.text = konten.idKategori.toString();
     }
-    //rubah
     return Scaffold(
         appBar: AppBar(
-          title: konten == null ? Text('Add Note') : Text('Edit Note'),
+          title: konten == null
+              ? Text('Add Note or Wishlist')
+              : Text('Edit Note or Wishlist'),
           backgroundColor: Colors.lightBlue[900],
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
@@ -88,15 +79,12 @@ class KontenFormState extends State<KontenForm> {
                     );
                   }).toList(),
                   value: listKategori[indexList],
+                  hint: Text("Choose category"),
                   onChanged: (String value) {
-                   
-                    //listKategori[indexList] = _selectedCategory.toString();
                     int i = listKategori.indexOf(value);
                     setState(() {
                       indexList = i;
-                      //listKategori[indexList] = _selectedCategory.toString();
                     });
-                    //listKategori[indexList] = _selectedCategory.toString();
                   },
                 ),
               ),
@@ -114,7 +102,6 @@ class KontenFormState extends State<KontenForm> {
                   onChanged: (value) {},
                 ),
               ),
-              // harga
               Padding(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                 child: TextField(
@@ -130,7 +117,6 @@ class KontenFormState extends State<KontenForm> {
                   onChanged: (value) {},
                 ),
               ),
-              //stok
               Padding(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: DateField(
@@ -150,9 +136,7 @@ class KontenFormState extends State<KontenForm> {
                     lastDate: DateTime(2030),
                     dateFormat: DateFormat.yMd(),
                     selectedDate: _chooseDate),
-                // ignore: deprecated_member_use
               ),
-              //button
               Padding(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: Row(children: <Widget>[
@@ -160,25 +144,24 @@ class KontenFormState extends State<KontenForm> {
                   Expanded(
                     // ignore: deprecated_member_use
                     child: RaisedButton(
-                      color: Colors.lightBlue[900],
+                      color: Colors.yellow[800],
                       textColor: Colors.white,
                       child: Text(
                         'Save',
                         textScaleFactor: 1.2,
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
                         if (konten == null) {
                           // tambah data
                           konten = Konten(
-                              _selectedCategory.toString(),
-                              //kategoriController.text,
+                              listKategori[indexList].toString(),
                               _chooseDate.toString(),
                               titleController.text,
                               noteController.text);
                         } else {
                           // ubah data
-                          //konten.kategori = kategoriController.text;
-                          konten.kategori = _selectedCategory.toString();
+                          konten.kategori = listKategori[indexList].toString();
                           konten.date = _chooseDate.toString();
                           konten.title = titleController.text;
                           konten.note = noteController.text;
@@ -195,11 +178,12 @@ class KontenFormState extends State<KontenForm> {
                   Expanded(
                     // ignore: deprecated_member_use
                     child: RaisedButton(
-                      color: Colors.lightBlue[900],
+                      color: Colors.yellow[800],
                       textColor: Colors.white,
                       child: Text(
                         'Cancel',
                         textScaleFactor: 1.2,
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -211,18 +195,5 @@ class KontenFormState extends State<KontenForm> {
             ],
           ),
         ));
-  }
-
-  void kategoriListView() {
-    final Future<Database> dbFuture = dbHelper.initDb();
-    dbFuture.then((database) {
-      Future<List<Kategori>> kategoriListFuture = dbHelper.getKategoriList();
-      kategoriListFuture.then((kategoriList) {
-        setState(() {
-          this.kategoriList = kategoriList;
-          this.count = kategoriList.length;
-        });
-      });
-    });
   }
 }

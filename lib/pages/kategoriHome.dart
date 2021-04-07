@@ -38,7 +38,7 @@ class KategoriHomeState extends State<KategoriHome> {
              padding: EdgeInsets.only(left: 250, bottom: 30),
               child: FloatingActionButton(
             child: const Icon(Icons.add),
-            backgroundColor: Colors.yellow[700],
+            backgroundColor: Colors.yellow[800],
             onPressed: () async {
               var kategori = await navigateToEntryForm(context, null);
               if (kategori != null) {
@@ -73,7 +73,7 @@ class KategoriHomeState extends State<KategoriHome> {
             elevation: 3.0,
             child: ListTile(
               leading: CircleAvatar(
-                backgroundColor: Colors.yellow[700],
+                backgroundColor: Colors.yellow[800],
                 child: Icon(Icons.category, color: Colors.white,),
               ),
               title: Container(

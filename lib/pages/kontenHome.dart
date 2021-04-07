@@ -34,7 +34,7 @@ class HomePageState extends State<HomePage> {
               padding: EdgeInsets.only(left: 250, bottom: 30),
               child: FloatingActionButton(
                 child: const Icon(Icons.add),
-                backgroundColor: Colors.yellow[700],
+                backgroundColor: Colors.yellow[800],
                 onPressed: () async {
                   var konten = await navigateToEntryForm(context, null);
                   if (konten != null) {
