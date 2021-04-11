@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:new_note/helper/dbHelper.dart';
 import 'package:new_note/models/kategori.dart';
+import 'package:new_note/models/konten.dart';
 import 'package:new_note/pages/mainDrawer.dart';
 import 'package:sqflite/sqflite.dart';
 import 'kategoriForm.dart';
@@ -15,6 +16,7 @@ class KategoriHomeState extends State<KategoriHome> {
   DbHelper dbHelper = DbHelper();
   int count = 0;
   List<Kategori> kategoriList;
+
 
   @override
   void initState() {
@@ -54,7 +56,7 @@ class KategoriHomeState extends State<KategoriHome> {
       drawer: MainDrawer(),
     );
   }
-
+//fungsi yang digunakan untuk mengarahkan ke form 
   Future<Kategori> navigateToEntryForm(
       BuildContext context, Kategori kategori) async {
     var result = await Navigator.push(context,
@@ -70,8 +72,10 @@ class KategoriHomeState extends State<KategoriHome> {
         itemBuilder: (buildContext, int index) {
           return Card(
             color: Colors.white,
-            elevation: 3.0,
+            elevation: 3.0, //memberikan bayangan
+            //A single fixed-height row that typically contains some text as well as a leading or trailing icon. 
             child: ListTile(
+              //widget digunakan sebelum title
               leading: CircleAvatar(
                 backgroundColor: Colors.yellow[800],
                 child: Icon(Icons.category, color: Colors.white,),
@@ -83,9 +87,10 @@ class KategoriHomeState extends State<KategoriHome> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
               ),
+              //tamban sesuatu dibawah title, lebih pudar warna textnya 
               subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start, //horizontal
+                mainAxisAlignment: MainAxisAlignment.start, //vertical
                 children: [
                   Container(
                     padding: EdgeInsets.only(top: 5),
@@ -97,10 +102,11 @@ class KategoriHomeState extends State<KategoriHome> {
                   ),
                 ],
               ),
-              trailing: GestureDetector(
+              //trailing widget digunakan setelah widget title
+              trailing: GestureDetector(//widget untuk mendeteksi sentuhan
                 child: Icon(Icons.delete),
                 onTap: () async {
-                  dbHelper.deleteKategori(kategoriList[index].id);
+                  dbHelper.deleteKategori(kategoriList[index].id, kategoriList[index].title);
                   updateListView();
                 },
               ),

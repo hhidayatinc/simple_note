@@ -125,12 +125,14 @@ class HomePageState extends State<HomePage> {
               ),
               trailing: GestureDetector(
                 child: Icon(Icons.delete),
+                //delete
                 onTap: () async {
                   dbHelper.deleteKonten(kontenList[index].id);
                   updateListView();
                 },
               ),
               onTap: () async {
+                //edit
                 var konten = await navigateToEntryForm(
                     context, this.kontenList[index]);
                 if (konten != null) dbHelper.updateKonten(konten);

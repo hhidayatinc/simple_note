@@ -2,16 +2,21 @@ import 'dart:io';
 import 'package:new_note/models/kategori.dart';
 import 'package:new_note/models/konten.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper{
   static DbHelper _dbHelper;
   static Database _database;
+  Kategori kategori;
+  Konten konten;
 
   DbHelper._createObject();
   
   Future<Database> initDb() async {
+//Method getApplicationDocumentsDirectory() berfungsi untuk mengambil direktori folder aplikasi 
+//untuk menempatkan data yang dibuat pengguna sehingga tidak dapat dibuat ulang oleh aplikasi 
+//tersebut. Setelah itu kita gunakan variable String path, untuk membuat nama database kita 
+//dengan mengambil lokasi directory nya dan menambahkannya dengan nama database item.db
     Directory directory = await getApplicationDocumentsDirectory();
     String path = directory.path + 'simpleNote.db';
 
@@ -22,8 +27,6 @@ class DbHelper{
 
   void _createDb(Database db, int version) async{
     var batchTemp = db.batch();
-    batchTemp.execute('DROP TABLE IF EXISTS  kategori');
-    batchTemp.execute('DROP TABLE IF EXISTS  konten');
     // ignore: await_only_futures
     await batchTemp.execute('''
         CREATE TABLE kategori (
@@ -60,6 +63,8 @@ class DbHelper{
   }
 
   //create databases
+  //Variable count digunakan untuk menampung hasil SQL — nya. Bertipe Integer karena ketika sistem berhasil 
+//dieksekusi, nilai yang dikeluarkan adalah 1.
   Future<int> insertKonten(Konten object) async {
     Database db = await this.initDb();
     int count = await db.insert('konten', object.toMap());
@@ -92,17 +97,24 @@ class DbHelper{
     int count = await db.delete('konten', where: 'id=?', whereArgs: [id]);
     return count;
   }
-  Future<int> deleteKategori(int id) async {
+  Future<int> deleteKategori(int id, String kategori) async {
     Database db = await this.initDb();
     int count = await db.delete('kategori', where: 'id=?', whereArgs: [id]);
+  
+    int count1 = await db.delete('konten', where: 'kategori=?', whereArgs: [kategori]);
+    
+    
     return count;
   }
+    // if(kategori.id.toString() == null){
+    //   int count1 = await db.delete('konten', where: 'title=?', whereArgs: [title]);
+    // }
+    //await db.execute('DELETE a*, b* FROM kategori a, konten b WHERE a.title=b.title');
 
-//
-//
-//
-
-
+//Future adalah “tipe data” yang terpanggil dengan adanya delay atau “keterlambatan”. 
+//sistem akan terus menjalankan method tersebut sampai method itu selesai berjalan.
+// Contohnya ketika kita akan mengambil data yang ada di dalam database/API 
+//kita membutuhkan method Future untuk mengambil data di dalam database/API tersebut.
   Future<List<Konten>> getKontenList() async {
     var itemMapList = await selectKonten();
     int count = itemMapList.length;
@@ -113,10 +125,11 @@ class DbHelper{
     }
     return itemList;
   }
-
+//future selalu pakai async sehingga sistem menunggu sampai terjadi blocking
   Future<List<Kategori>> getKategoriList() async {
-    var itemMapList = await selectKategori();
-    int count = itemMapList.length;
+    var itemMapList = await selectKategori();//await digunakan didalam method yg menerapkan async
+    int count = itemMapList.length;         //jika method menggunakan await, maka harus
+    // ignore: deprecated_member_use           //menunggu sampe selese
     // ignore: deprecated_member_use
     List<Kategori> itemList = List<Kategori>();
     for (int i = 0; i < count; i++) {

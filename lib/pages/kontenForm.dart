@@ -20,29 +20,41 @@ class KontenFormState extends State<KontenForm> {
   KontenFormState(this.konten);
   TextEditingController titleController = TextEditingController();
   TextEditingController noteController = TextEditingController();
-
+  //untuk mengambil tanggal
   DateTime _chooseDate = DateTime.now();
+  //list hasil inputan pada form kategori
+  // ignore: deprecated_member_use
   List<Kategori> kategoriList = List<Kategori>();
+  //list menampung hasil pada form kategori dalam bentuk string
+  // ignore: deprecated_member_use
   List<String> listKategori = List<String>();
-
+  //atribut yang digunakan untuk mengetahui index pada listKategori
   int indexList = 0;
+  int count = 0;
 
   @override
+  //agar kategori dropdown selalu ditampilkan saat pertama kali buka project
   void initState() {
     super.initState();
     updateListView();
   }
 
+//fungsi untuk mengupdate list kategori
   void updateListView() {
     final Future<Database> dbFuture = dbHelper.initDb();
     dbFuture.then((database) {
-      //select data
+      //select data kategori
       Future<List<Kategori>> kategoriListFuture = dbHelper.getKategoriList();
       kategoriListFuture.then((kategoriList) {
         setState(() {
+          
+          //memasukkan hasil inputan list kategori ke dalam list yang bertipe data string
           for (int i = 0; i < kategoriList.length; i++) {
             listKategori.add(kategoriList[i].title);
+            
+          
           }
+            
         });
       });
     });
@@ -72,6 +84,7 @@ class KontenFormState extends State<KontenForm> {
             children: <Widget>[
               Center(
                 child: DropdownButton<String>(
+                  //dilakukan mapping 
                   items: listKategori.map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -79,7 +92,6 @@ class KontenFormState extends State<KontenForm> {
                     );
                   }).toList(),
                   value: listKategori[indexList],
-                  hint: Text("Choose category"),
                   onChanged: (String value) {
                     int i = listKategori.indexOf(value);
                     setState(() {
@@ -135,6 +147,7 @@ class KontenFormState extends State<KontenForm> {
                     firstDate: DateTime.now(),
                     lastDate: DateTime(2030),
                     dateFormat: DateFormat.yMd(),
+                    //memasukkan data yang dipilih kedalam atribut yang disediakan dengan tipe data DateTime
                     selectedDate: _chooseDate),
               ),
               Padding(
@@ -144,7 +157,7 @@ class KontenFormState extends State<KontenForm> {
                   Expanded(
                     // ignore: deprecated_member_use
                     child: RaisedButton(
-                      color: Colors.yellow[800],
+                      color: Colors.lightBlue[900],
                       textColor: Colors.white,
                       child: Text(
                         'Save',
@@ -155,7 +168,8 @@ class KontenFormState extends State<KontenForm> {
                         if (konten == null) {
                           // tambah data
                           konten = Konten(
-                              listKategori[indexList].toString(),
+                              listKategori[indexList].toString(),//memasukkan hasil dari pemilihan kategori di dropdown 
+                                                                  //kedalam tabel konten dan diubah kedalam bentuk string
                               _chooseDate.toString(),
                               titleController.text,
                               noteController.text);
@@ -178,7 +192,7 @@ class KontenFormState extends State<KontenForm> {
                   Expanded(
                     // ignore: deprecated_member_use
                     child: RaisedButton(
-                      color: Colors.yellow[800],
+                      color: Colors.lightBlue[900],
                       textColor: Colors.white,
                       child: Text(
                         'Cancel',

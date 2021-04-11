@@ -71,7 +71,7 @@ class KategoriFormState extends State<KategoriForm> {
               Expanded(
                 // ignore: deprecated_member_use
                 child: RaisedButton(
-                  color: Colors.yellow[800],
+                  color: Colors.lightBlue[900],
                   textColor: Colors.white,
                   child: Text(
                     'Save',
@@ -100,7 +100,7 @@ class KategoriFormState extends State<KategoriForm> {
               Expanded(
                 // ignore: deprecated_member_use
                 child: RaisedButton(
-                  color: Colors.yellow[800],
+                  color: Colors.lightBlue[900],
                   textColor:  Colors.white,
                   child: Text(
                     'Cancel',
